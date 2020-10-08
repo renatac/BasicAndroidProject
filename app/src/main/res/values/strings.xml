@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">BasicAndroidProject</string>
-    <string name="label_kotlin">kotlin</string>
-    <string name="label_java">java</string>
-    <string name="label_html">html</string>
-    <string name="label_swift">swift</string>
-    <string name="label_typescript">typescript</string>
-    <string name="label_flutter">flutter</string>
+    <string name="label_kotlin">Kotlin</string>
+    <string name="label_java">Java</string>
+    <string name="label_html">Html</string>
+    <string name="label_swift">Swift</string>
+    <string name="label_typescript">TypeScript</string>
+    <string name="label_flutter">Flutter</string>
 </resources>

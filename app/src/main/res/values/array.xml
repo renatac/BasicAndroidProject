@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="img_array">
+        <item>@drawable/ic_html</item>
+        <item>@drawable/ic_html</item>
+        <item>@drawable/ic_html</item>
+        <item>@drawable/ic_html</item>
+        <item>@drawable/ic_html</item>
+        <item>@drawable/ic_html</item>
+         </integer-array>
+
+    <string-array name="names_array">
+        <item>Kotlin</item>
+        <item>Java</item>
+        <item>Html</item>
+        <item>Swift</item>
+        <item>TypeScript</item>
+        <item>Flutter</item>
+    </string-array>
+
+</resources>
