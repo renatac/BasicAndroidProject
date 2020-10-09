@@ -38,10 +38,10 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
     private fun setImage(imgRes: Int?) {
         langImg.setImageResource(
             when (imgRes) {
-                1 -> R.drawable.ic_kotlin
-                2 -> R.drawable.ic_java
-                3 -> R.drawable.ic_html
-                4 -> R.drawable.ic_swift
+                0 -> R.drawable.ic_kotlin
+                1 -> R.drawable.ic_java
+                2 -> R.drawable.ic_html
+                3 -> R.drawable.ic_swift
                 5 -> R.drawable.ic_typescript
                 else -> R.drawable.ic_flutter
             })
@@ -83,8 +83,8 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         nameSelected = parent?.getItemAtPosition(position).toString()
-        positionHelp = position +1
-        setImage(position+1)
+        positionHelp = position
+        setImage(position)
     }
 
     fun clickBtnEdition(view: View) {

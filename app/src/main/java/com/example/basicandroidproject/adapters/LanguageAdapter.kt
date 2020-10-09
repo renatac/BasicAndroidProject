@@ -37,11 +37,11 @@ class LanguageAdapter(val languagens: MutableList<Language>,
             itemView.txtNumber.text = (position+1).toString()
             itemView.imgRecycler.setImageResource(
                 when (language.imgRes) {
-                    1 -> R.drawable.ic_kotlin
-                    2 -> R.drawable.ic_java
-                    3 -> R.drawable.ic_html
-                    4 -> R.drawable.ic_swift
-                    5 -> R.drawable.ic_typescript
+                    0 -> R.drawable.ic_kotlin
+                    1 -> R.drawable.ic_java
+                    2 -> R.drawable.ic_html
+                    3 -> R.drawable.ic_swift
+                    4 -> R.drawable.ic_typescript
                     else -> R.drawable.ic_flutter
                 }
             )
