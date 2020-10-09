@@ -1,5 +1,6 @@
 package com.example.basicandroidproject.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -12,11 +13,21 @@ import kotlinx.android.synthetic.main.toolbar_included.toolbarMain
 
 class MainActivity : BaseActivity() {
 
-    private lateinit var languageAdapter: LanguageAdapter
+    private lateinit var listFake : MutableList<Language>
 
-    companion object{
+    private lateinit var languageAdapter : LanguageAdapter
+
+    companion object {
         const val REQUEST_CODE = 1
         const val MODEL_OBJECT = "MODEL_OBJECT"
+        const val RETURNED_NAME_OBJECT = "RETURNED_NAME_OBJECT"
+        const val RETURNED_IMG_RES_OBJECT = "RETURNED_IMG_RES_OBJECT"
+        const val ELEMENT_1 = 1
+        const val ELEMENT_2 = 2
+        const val ELEMENT_3 = 3
+        const val ELEMENT_4 = 4
+        const val ELEMENT_5 = 5
+        const val ELEMENT_6 = 6
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,20 +35,19 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         setupToolbar(toolbarMain, R.string.app_name)
 
-        languageAdapter = LanguageAdapter(fillLanguagens(), this::onItemClickListener)
+        listFake = mutableListOf(
+            Language(ELEMENT_1, resources.getString(R.string.label_kotlin)),
+            Language(ELEMENT_2, resources.getString(R.string.label_java)),
+            Language(ELEMENT_3, resources.getString(R.string.label_html)),
+            Language(ELEMENT_4, resources.getString(R.string.label_swift)),
+            Language(ELEMENT_5, resources.getString(R.string.label_typescript)),
+            Language(ELEMENT_6, resources.getString(R.string.label_flutter))
+        )
+        languageAdapter = LanguageAdapter(listFake, this::onItemClickListener)
         recyclerView.adapter = languageAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
     }
-
-    private fun fillLanguagens() = mutableListOf(
-            Language(1, resources.getString(R.string.label_kotlin)),
-            Language(2,resources.getString(R.string.label_java)),
-            Language(3, resources.getString(R.string.label_html)),
-            Language(4, resources.getString(R.string.label_swift)),
-            Language(5, resources.getString(R.string.label_typescript)),
-            Language(6, resources.getString(R.string.label_flutter)))
-
 
     private fun onItemClickListener(language: Language) {
 
@@ -47,7 +57,30 @@ class MainActivity : BaseActivity() {
         val intent = Intent(this, EditionActivity::class.java)
         intent.putExtra(MODEL_OBJECT, language)
         startActivityForResult(intent, REQUEST_CODE)
+    }
 
+    private fun changeListFake(position: Int, language: Language){
+        listFake[position] = language
+        languageAdapter.notifyItemChanged(position)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CODE) {
+                val returnedName = data?.getStringExtra(RETURNED_NAME_OBJECT)
+                val returnedImgRes = data?.getIntExtra(RETURNED_IMG_RES_OBJECT,1)
+                val language = Language(returnedImgRes, returnedName)
+                when(returnedImgRes){
+                    ELEMENT_1 -> changeListFake(ELEMENT_1, language)
+                    ELEMENT_2 -> changeListFake(ELEMENT_2, language)
+                    ELEMENT_3 -> changeListFake(ELEMENT_3, language)
+                    ELEMENT_4 -> changeListFake(ELEMENT_4, language)
+                    ELEMENT_5 -> changeListFake(ELEMENT_5, language)
+                    ELEMENT_6 -> changeListFake(ELEMENT_6, language)
+                }
+            }
+        }
     }
 
 }

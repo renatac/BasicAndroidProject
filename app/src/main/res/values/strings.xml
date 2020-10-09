@@ -6,4 +6,5 @@
     <string name="label_swift">Swift</string>
     <string name="label_typescript">TypeScript</string>
     <string name="label_flutter">Flutter</string>
+    <string name="btn_edition">Concluir edição</string>
 </resources>

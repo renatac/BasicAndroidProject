@@ -14,8 +14,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Spinner
-        android:id="@+id/spinnerImg"
+    <ImageView
+        android:id="@+id/langImg"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginEnd="8dp"
@@ -30,9 +30,22 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"
-        app:layout_constraintStart_toEndOf="@id/spinnerImg"
-        app:layout_constraintTop_toTopOf="@id/spinnerImg"
+        app:layout_constraintStart_toEndOf="@id/langImg"
+        app:layout_constraintTop_toTopOf="@id/langImg"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="@string/app_name"/>
+
+    <Button
+        android:id="@+id/btnConcludedEdition"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textSize="18dp"
+        android:onClick="clickBtnEdition"
+        android:text="@string/btn_edition"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/shape_btn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

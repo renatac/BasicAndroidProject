@@ -33,7 +33,8 @@ class LanguageAdapter(val languagens: MutableList<Language>,
 
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(language: Language, position: Int) {
-            itemView.txtNumber.text = position.toString()
+
+            itemView.txtNumber.text = (position+1).toString()
             itemView.imgRecycler.setImageResource(
                 when (language.imgRes) {
                     1 -> R.drawable.ic_kotlin
