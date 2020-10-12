@@ -84,7 +84,7 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         setImage(position)
     }
 
-    fun clickBtnFinishedEdition(view: View) {
+    public fun clickBtnFinishEdition(view: View) {
         val data = Intent()
         data.putExtra(RETURNED_NUMBER_OBJECT, recoveredNumber)
         data.putExtra(RETURNED_NAME_OBJECT, nameSelected)

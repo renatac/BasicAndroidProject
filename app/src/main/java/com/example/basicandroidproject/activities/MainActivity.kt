@@ -3,6 +3,7 @@ package com.example.basicandroidproject.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.basicandroidproject.R
@@ -16,11 +17,12 @@ class MainActivity : BaseActivity() {
     private lateinit var languageAdapter : LanguageAdapter
 
     companion object {
-        const val REQUEST_CODE = 1
+        const val EDITION_REQUEST_CODE = 1
+        const val INSERTION_REQUEST_CODE = 2
         const val MODEL_OBJECT = "MODEL_OBJECT"
         const val RETURNED_NAME_OBJECT = "RETURNED_NAME_OBJECT"
         const val RETURNED_NUMBER_OBJECT = "RETURNED_NUMBER_OBJECT"
-        const val POSITION_TO_BE_CHANGED = "POSITION_TO_BE_CHANGED"
+        const val RETURNED_INSERTED_NAME = "RETURNED_INSERTED_NAME"
         const val ELEMENT_0 = 0
         const val ELEMENT_1 = 1
         const val ELEMENT_2 = 2
@@ -36,6 +38,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupToolbar(toolbarMain, R.string.app_name)
+        setupFloatingBtn()
 
         listFake = mutableListOf(
             Language(ELEMENT_0, resources.getString(R.string.label_kotlin)),
@@ -51,6 +54,13 @@ class MainActivity : BaseActivity() {
 
     }
 
+    private fun setupFloatingBtn() {
+        fab.setOnClickListener {
+            val intent = Intent(this, InsertionActivity::class.java)
+            startActivityForResult(intent, INSERTION_REQUEST_CODE)
+        }
+    }
+
     private fun onItemClickListener(language: Language) {
 
         Toast.makeText(this, "Model: Number=${language.number} Name:${language.name}",
@@ -58,7 +68,7 @@ class MainActivity : BaseActivity() {
 
         val intent = Intent(this, EditionActivity::class.java)
         intent.putExtra(MODEL_OBJECT, language)
-        startActivityForResult(intent, REQUEST_CODE)
+        startActivityForResult(intent, EDITION_REQUEST_CODE)
     }
 
     private fun changeListFake(language: Language){
@@ -69,10 +79,11 @@ class MainActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CODE) {
+            var language: Language
+            if (requestCode == EDITION_REQUEST_CODE) {
                 val returnedName = data?.getStringExtra(RETURNED_NAME_OBJECT)
                 val returnedNumber = data?.getIntExtra(RETURNED_NUMBER_OBJECT, 1)
-                val language = Language(returnedNumber, returnedName)
+                language = Language(returnedNumber, returnedName)
 
                 Toast.makeText(
                     this, "Model: Number=${language.number} Name:${language.name}",
@@ -80,17 +91,13 @@ class MainActivity : BaseActivity() {
                 ).show()
 
                 changeListFake(language)
-//
-//                when (returnedNumber) {
-//                    ELEMENT_0 -> changeListFake(language)
-//                    ELEMENT_1 -> changeListFake(language)
-//                    ELEMENT_2 -> changeListFake(language)
-//                    ELEMENT_3 -> changeListFake(language)
-//                    ELEMENT_4 -> changeListFake(language)
-//                    ELEMENT_5 -> changeListFake(language)
-//                }
+            }
+            else if(requestCode == INSERTION_REQUEST_CODE){
+                val returnedInsertedName = data?.getStringExtra(RETURNED_INSERTED_NAME)
+                language = Language(listFake.size, returnedInsertedName)
+                listFake.add(language)
+                languageAdapter.notifyItemInserted(language.number!!)
             }
         }
     }
-
 }
