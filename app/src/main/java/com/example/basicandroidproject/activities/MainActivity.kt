@@ -3,7 +3,6 @@ package com.example.basicandroidproject.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.basicandroidproject.R
@@ -51,7 +50,6 @@ class MainActivity : BaseActivity() {
         languageAdapter = LanguageAdapter(listFake, this::onItemClickListener)
         recyclerView.adapter = languageAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
-
     }
 
     private fun setupFloatingBtn() {

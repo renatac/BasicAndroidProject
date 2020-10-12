@@ -45,7 +45,8 @@ class LanguageAdapter(
                     "Html" -> R.drawable.ic_html
                     "Swift" -> R.drawable.ic_swift
                     "TypeScript" -> R.drawable.ic_typescript
-                    else -> R.drawable.ic_flutter
+                    "Flutter"-> R.drawable.ic_flutter
+                    else-> R.drawable.ic_languagens
                 }
             )
         }

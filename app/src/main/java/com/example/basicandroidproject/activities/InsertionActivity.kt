@@ -2,17 +2,18 @@ package com.example.basicandroidproject.activities
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import com.example.basicandroidproject.R
 import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_INSERTED_NAME
 import kotlinx.android.synthetic.main.activity_insertion.*
 
-class InsertionActivity : AppCompatActivity() {
+class InsertionActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insertion)
+        setupToolbar(insertionToolbar as Toolbar, R.string.app_name, true)
     }
 
     fun clickAddBtn(view: View) {

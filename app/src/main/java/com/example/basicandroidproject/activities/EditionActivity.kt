@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.basicandroidproject.R
 import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_NAME_OBJECT
@@ -19,19 +20,18 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var nameSelected: String
     private var recoveredNumber : Int? = 0
     private var recoveredName : String? = null
-    private val namesList = arrayOf<String>("Kotlin", "Java","Html", "Swift", "TypeScript","Flutter")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edition)
 
-        setupToolbar(editionToolbar as Toolbar, R.string.app_name)
+        setupToolbar(editionToolbar as Toolbar, R.string.app_name, true)
 
         recoverVariables()
         fillSpinners()
 
         setImage(recoveredNumber)
-        setElements()
+        setselectedElement()
     }
 
     private fun setImage(index : Int?) {
@@ -42,14 +42,15 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
                 resources.getString(R.string.label_html) -> R.drawable.ic_html
                 resources.getString(R.string.label_swift) -> R.drawable.ic_swift
                 resources.getString(R.string.label_typescript) -> R.drawable.ic_typescript
-                else -> R.drawable.ic_flutter
+                resources.getString(R.string.label_flutter) -> R.drawable.ic_flutter
+                else -> R.drawable.ic_languagens
             })
     }
 
-    private fun setElements() {
-        namesList.forEachIndexed { index, nameItem ->
+    private fun setselectedElement() {
+        MainActivity.listFake.map { it.name }.forEachIndexed { index, nameItem ->
             if(nameItem.equals(recoveredName)){
-                spinnerName.setSelection(index);
+                spinnerName.setSelection(index)
                 nameSelected = recoveredName as String
             }
         }
@@ -59,6 +60,9 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         val language = intent.getParcelableExtra<Language>(MainActivity.MODEL_OBJECT)
         recoveredNumber = language?.number
         recoveredName = language?.name
+        Toast.makeText(this, "Model: recoveredNumber==${recoveredNumber} recoverName:${recoveredName}",
+            Toast.LENGTH_SHORT).show()
+
     }
 
     private fun fillSpinners() {
@@ -66,7 +70,7 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            namesList
+            MainActivity.listFake.map { it.name }
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -84,7 +88,7 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         setImage(position)
     }
 
-    public fun clickBtnFinishEdition(view: View) {
+     fun clickBtnFinishEdition(view: View) {
         val data = Intent()
         data.putExtra(RETURNED_NUMBER_OBJECT, recoveredNumber)
         data.putExtra(RETURNED_NAME_OBJECT, nameSelected)

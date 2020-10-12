@@ -9,5 +9,6 @@
     <string name="btn_finish_edition">Concluir Edição</string>
     <string name="btn_add">Adicionar</string>
     <string name="insertion_title">Adicione uma Linguagem de Programação na lista</string>
-    <string name="hint_language">Digite a linguagem de programação</string>
+    <string name="hint_language">Linguagem de programação</string>
+    <string name="lable_main_title">Liguagens de programação</string>
 </resources>
