@@ -5,12 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.basicandroidproject.R
+import com.example.basicandroidproject.activities.MainActivity
 import com.example.basicandroidproject.model.Language
 import kotlinx.android.synthetic.main.item_list.view.*
 
-class LanguageAdapter(val languagens: MutableList<Language>,
-                      private val callback: (Language) -> Unit)
-    : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
+class LanguageAdapter(
+    val languagens: MutableList<Language>,
+    private val callback: (Language) -> Unit
+) : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,18 +36,18 @@ class LanguageAdapter(val languagens: MutableList<Language>,
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(language: Language, position: Int) {
 
-            itemView.txtNumber.text = (position+1).toString()
+            itemView.txtNumber.text = (position + 1).toString()
+            itemView.txtName.text = language.name
             itemView.imgRecycler.setImageResource(
-                when (language.imgRes) {
-                    0 -> R.drawable.ic_kotlin
-                    1 -> R.drawable.ic_java
-                    2 -> R.drawable.ic_html
-                    3 -> R.drawable.ic_swift
-                    4 -> R.drawable.ic_typescript
+                when (language.name) {
+                    "Kotlin" -> R.drawable.ic_kotlin
+                    "Java" -> R.drawable.ic_java
+                    "Html" -> R.drawable.ic_html
+                    "Swift" -> R.drawable.ic_swift
+                    "TypeScript" -> R.drawable.ic_typescript
                     else -> R.drawable.ic_flutter
                 }
             )
-            itemView.txtName.text = language.name
         }
     }
 }

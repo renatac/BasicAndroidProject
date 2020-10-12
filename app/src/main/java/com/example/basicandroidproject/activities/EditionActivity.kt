@@ -8,8 +8,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import com.example.basicandroidproject.R
-import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_IMG_RES_OBJECT
 import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_NAME_OBJECT
+import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_NUMBER_OBJECT
 import com.example.basicandroidproject.model.Language
 import kotlinx.android.synthetic.main.activity_edition.*
 
@@ -17,10 +17,9 @@ import kotlinx.android.synthetic.main.activity_edition.*
 class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var nameSelected: String
-    private var positionHelp: Int = 0
-    private var imgRes : Int? = 0
-    private var name : String? = null
-    private val nameList = arrayOf<String>("Kotlin", "Java","Html", "Swift", "TypeScript","Flutter")
+    private var recoveredNumber : Int? = 0
+    private var recoveredName : String? = null
+    private val namesList = arrayOf<String>("Kotlin", "Java","Html", "Swift", "TypeScript","Flutter")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,35 +30,35 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         recoverVariables()
         fillSpinners()
 
-        setImage(imgRes)
+        setImage(recoveredNumber)
         setElements()
     }
 
-    private fun setImage(imgRes: Int?) {
+    private fun setImage(index : Int?) {
         langImg.setImageResource(
-            when (imgRes) {
-                0 -> R.drawable.ic_kotlin
-                1 -> R.drawable.ic_java
-                2 -> R.drawable.ic_html
-                3 -> R.drawable.ic_swift
-                5 -> R.drawable.ic_typescript
+            when (MainActivity.listFake[index!!].name) {
+                resources.getString(R.string.label_kotlin) -> R.drawable.ic_kotlin
+                resources.getString(R.string.label_java) -> R.drawable.ic_java
+                resources.getString(R.string.label_html) -> R.drawable.ic_html
+                resources.getString(R.string.label_swift) -> R.drawable.ic_swift
+                resources.getString(R.string.label_typescript) -> R.drawable.ic_typescript
                 else -> R.drawable.ic_flutter
             })
     }
 
     private fun setElements() {
-        nameList.forEachIndexed { index, nameItem ->
-            if(nameItem.equals(name)){
+        namesList.forEachIndexed { index, nameItem ->
+            if(nameItem.equals(recoveredName)){
                 spinnerName.setSelection(index);
-                nameSelected = name as String
+                nameSelected = recoveredName as String
             }
         }
     }
 
     private fun recoverVariables() {
         val language = intent.getParcelableExtra<Language>(MainActivity.MODEL_OBJECT)
-        imgRes = language?.imgRes
-        name = language?.name
+        recoveredNumber = language?.number
+        recoveredName = language?.name
     }
 
     private fun fillSpinners() {
@@ -67,11 +66,10 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            nameList
+            namesList
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             spinnerName.adapter = adapter
         }
         spinnerName.onItemSelectedListener = this
@@ -83,13 +81,12 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         nameSelected = parent?.getItemAtPosition(position).toString()
-        positionHelp = position
         setImage(position)
     }
 
-    fun clickBtnEdition(view: View) {
+    fun clickBtnFinishedEdition(view: View) {
         val data = Intent()
-        data.putExtra(RETURNED_IMG_RES_OBJECT, positionHelp)
+        data.putExtra(RETURNED_NUMBER_OBJECT, recoveredNumber)
         data.putExtra(RETURNED_NAME_OBJECT, nameSelected)
         setResult(Activity.RESULT_OK, data)
         finish()

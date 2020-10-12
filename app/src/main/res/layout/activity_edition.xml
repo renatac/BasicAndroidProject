@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="18dp"
-        android:onClick="clickBtnEdition"
+        android:onClick="clickBtnFinishedEdition"
         android:text="@string/btn_edition"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
