@@ -36,12 +36,14 @@
         android:background="@android:color/white"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginTop="16dp"
+        android:scrollbarSize="8dp"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtTitleMain"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_list" />
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -51,6 +53,9 @@
         android:layout_margin="16dp"
         app:fabSize="auto"
         app:borderWidth="1.0dp"
+        app:backgroundTint="@android:color/white"
+        android:tint="@android:color/holo_blue_dark"
+        app:rippleColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

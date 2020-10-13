@@ -3,6 +3,7 @@ package com.example.basicandroidproject.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.basicandroidproject.R
@@ -22,6 +23,8 @@ class MainActivity : BaseActivity() {
         const val RETURNED_NAME_OBJECT = "RETURNED_NAME_OBJECT"
         const val RETURNED_NUMBER_OBJECT = "RETURNED_NUMBER_OBJECT"
         const val RETURNED_INSERTED_NAME = "RETURNED_INSERTED_NAME"
+        const val TAG = "TAG"
+        const val SAVED_LIST_FAKE = "SAVED_LIST_FAKE"
         const val ELEMENT_0 = 0
         const val ELEMENT_1 = 1
         const val ELEMENT_2 = 2
@@ -39,14 +42,20 @@ class MainActivity : BaseActivity() {
         setupToolbar(toolbarMain, R.string.app_name)
         setupFloatingBtn()
 
-        listFake = mutableListOf(
-            Language(ELEMENT_0, resources.getString(R.string.label_kotlin)),
-            Language(ELEMENT_1, resources.getString(R.string.label_java)),
-            Language(ELEMENT_2, resources.getString(R.string.label_html)),
-            Language(ELEMENT_3, resources.getString(R.string.label_swift)),
-            Language(ELEMENT_4, resources.getString(R.string.label_typescript)),
-            Language(ELEMENT_5, resources.getString(R.string.label_flutter))
-        )
+        if(savedInstanceState == null) {
+            listFake = mutableListOf(
+                Language(ELEMENT_0, resources.getString(R.string.label_kotlin)),
+                Language(ELEMENT_1, resources.getString(R.string.label_java)),
+                Language(ELEMENT_2, resources.getString(R.string.label_html)),
+                Language(ELEMENT_3, resources.getString(R.string.label_swift)),
+                Language(ELEMENT_4, resources.getString(R.string.label_typescript)),
+                Language(ELEMENT_5, resources.getString(R.string.label_flutter))
+            )
+        }
+        else{
+            listFake = savedInstanceState.getParcelableArrayList<Language>(SAVED_LIST_FAKE) as MutableList<Language>
+        }
+
         languageAdapter = LanguageAdapter(listFake, this::onItemClickListener)
         recyclerView.adapter = languageAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -98,4 +107,40 @@ class MainActivity : BaseActivity() {
             }
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        listFake as ArrayList<Language>
+        outState.putParcelableArrayList(SAVED_LIST_FAKE, java.util.ArrayList<Language>(listFake))
+        Log.d(TAG, "onSaveInstanceState")
+        Log.d(TAG, "listFake = ${listFake}")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        listFake = savedInstanceState.getParcelableArrayList<Language>(SAVED_LIST_FAKE) as MutableList<Language>
+        Log.d(TAG, "onRestoreInstanceState")
+        Log.d(TAG, "listFake = ${listFake}")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume")
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart")
+        languageAdapter.notifyDataSetChanged()
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart")
+
+    }
+
 }
