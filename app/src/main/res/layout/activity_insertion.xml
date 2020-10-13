@@ -18,7 +18,7 @@
         android:id="@+id/editionTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:layout_margin="16dp"
         android:text="@string/insertion_title"
         android:textStyle="bold"
@@ -27,26 +27,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edtLanguage"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
         android:layout_marginTop="32dp"
         android:layout_margin="16dp"
-        android:hint="@string/hint_language"
         app:layout_constraintTop_toBottomOf="@id/editionTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnFinishEdition"/>
+        app:layout_constraintBottom_toTopOf="@id/btnAdd">
+
+        <EditText
+            android:id="@+id/edtLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:hint="@string/hint_language" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnFinishEdition"
+        android:id="@+id/btnAdd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginBottom="8dp"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:onClick="clickAddBtn"
         android:text="@string/btn_add"
         app:layout_constraintStart_toStartOf="parent"

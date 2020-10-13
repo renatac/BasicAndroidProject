@@ -36,7 +36,7 @@
         android:background="@android:color/white"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginTop="16dp"
-        android:scrollbarSize="8dp"
+        android:scrollbarSize="4dp"
         android:scrollbarThumbVertical="@android:color/darker_gray"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"

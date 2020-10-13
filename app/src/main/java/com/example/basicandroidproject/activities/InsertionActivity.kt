@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.example.basicandroidproject.R
 import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_INSERTED_NAME
+import com.example.basicandroidproject.activities.MainActivity.Companion.listFake
 import kotlinx.android.synthetic.main.activity_insertion.*
 
 class InsertionActivity : BaseActivity() {
@@ -19,6 +20,14 @@ class InsertionActivity : BaseActivity() {
     fun clickAddBtn(view: View) {
         var txtLanguage = edtLanguage.text.toString()
         if(txtLanguage.isNotEmpty()){
+
+            listFake.forEach {
+                if(it.name.equals(txtLanguage)){
+
+                }
+
+            }
+
             val data = Intent()
             data.putExtra(RETURNED_INSERTED_NAME, txtLanguage)
             setResult(Activity.RESULT_OK, data)

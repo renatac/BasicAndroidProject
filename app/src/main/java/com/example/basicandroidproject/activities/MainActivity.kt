@@ -43,6 +43,7 @@ class MainActivity : BaseActivity() {
         setupFloatingBtn()
 
         if(savedInstanceState == null) {
+            Log.d(TAG, "onCreate 1")
             listFake = mutableListOf(
                 Language(ELEMENT_0, resources.getString(R.string.label_kotlin)),
                 Language(ELEMENT_1, resources.getString(R.string.label_java)),
@@ -53,6 +54,7 @@ class MainActivity : BaseActivity() {
             )
         }
         else{
+            Log.d(TAG, "onCreate 2")
             listFake = savedInstanceState.getParcelableArrayList<Language>(SAVED_LIST_FAKE) as MutableList<Language>
         }
 
