@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.basicandroidproject.R
 import com.example.basicandroidproject.adapters.LanguageAdapter
 import com.example.basicandroidproject.model.Language
@@ -17,14 +18,19 @@ class MainActivity : BaseActivity() {
     private lateinit var languageAdapter : LanguageAdapter
 
     companion object {
+
         const val EDITION_REQUEST_CODE = 1
         const val INSERTION_REQUEST_CODE = 2
+
         const val MODEL_OBJECT = "MODEL_OBJECT"
         const val RETURNED_NAME_OBJECT = "RETURNED_NAME_OBJECT"
         const val RETURNED_NUMBER_OBJECT = "RETURNED_NUMBER_OBJECT"
         const val RETURNED_INSERTED_NAME = "RETURNED_INSERTED_NAME"
+
         const val TAG = "TAG"
+
         const val SAVED_LIST_FAKE = "SAVED_LIST_FAKE"
+
         const val ELEMENT_0 = 0
         const val ELEMENT_1 = 1
         const val ELEMENT_2 = 2
@@ -61,6 +67,19 @@ class MainActivity : BaseActivity() {
         languageAdapter = LanguageAdapter(listFake, this::onItemClickListener)
         recyclerView.adapter = languageAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val helper =
+            androidx.recyclerview.widget.ItemTouchHelper(
+                //Direçoes que irei excutar esses eventos
+                ItemTouchHandler(androidx.recyclerview.widget.ItemTouchHelper.UP
+                        or androidx.recyclerview.widget.ItemTouchHelper.DOWN,
+                    androidx.recyclerview.widget.ItemTouchHelper.LEFT)) //e o swipe só pra esquerda
+        helper.attachToRecyclerView(recyclerView)
+
+        languageAdapter.onItemLongClick ={position->
+            //enableActionMode(position)
+        }
+
     }
 
     private fun setupFloatingBtn() {
@@ -144,5 +163,32 @@ class MainActivity : BaseActivity() {
         Log.d(TAG, "onRestart")
 
     }
+
+    //reordenacao dos nossos itens de célula
+    inner class ItemTouchHandler(dragDirs: Int, swipeDirs: Int) :
+        androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+//            //usarei para reordenar
+//            val from = viewHolder.adapterPosition
+//            val to = target.adapterPosition
+//
+//            Collections.swap(languageAdapter.languagens, from, to)
+//            languageAdapter.notifyItemMoved(from, to)
+            return true // pra dizer que a lista foi alterada
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            //usarei para excluir dados
+            //removo os itens e notifico ao adapter que isso ocorreu
+            languageAdapter.languagens.removeAt(viewHolder.adapterPosition)
+            languageAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+        }
+    }
+
+
 
 }

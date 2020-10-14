@@ -14,6 +14,8 @@ class LanguageAdapter(
     private val callback: (Language) -> Unit
 ) : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
 
+    var onItemLongClick: ((Int)-> Unit)? = null
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -31,6 +33,11 @@ class LanguageAdapter(
 
     override fun onBindViewHolder(holder: LanguageAdapter.LanguageViewHolder, position: Int) {
         holder.bind(languagens[position], position)
+
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick?.invoke(position)
+            return@setOnLongClickListener true
+        }
     }
 
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
