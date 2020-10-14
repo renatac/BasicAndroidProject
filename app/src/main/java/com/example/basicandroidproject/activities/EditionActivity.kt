@@ -29,7 +29,7 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
 
         recoverVariables()
         fillSpinners()
-
+        Toast.makeText(this, recoveredName, Toast.LENGTH_LONG).show()
         setImage(recoveredNumber)
         setselectedElement()
     }
@@ -60,9 +60,6 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         val language = intent.getParcelableExtra<Language>(MainActivity.MODEL_OBJECT)
         recoveredNumber = language?.number
         recoveredName = language?.name
-        Toast.makeText(this, "Model: recoveredNumber==${recoveredNumber} recoverName:${recoveredName}",
-            Toast.LENGTH_SHORT).show()
-
     }
 
     private fun fillSpinners() {
@@ -80,7 +77,7 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-        TODO("Not yet implemented")
+        //
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

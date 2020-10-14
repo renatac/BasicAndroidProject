@@ -21,15 +21,12 @@ class InsertionActivity : BaseActivity() {
         edtLanguage.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
-
             override fun afterTextChanged(s: Editable?) {
                 txtFeedback.text = ""
             }
         })
-
     }
 
     fun clickAddBtn(view: View) {
@@ -45,7 +42,7 @@ class InsertionActivity : BaseActivity() {
     private fun isValidLanguage(txtLanguage: String): Boolean {
         if (txtLanguage.isNotEmpty() && txtLanguage.isNotBlank()) {
             for (list in listFake) {
-                if (list.name.equals(txtLanguage)) {
+                if (list.name.equals(txtLanguage, ignoreCase = true)) {
                     txtFeedback.text = getString(R.string.feedback_language_already_exist)
                     return false
                 }

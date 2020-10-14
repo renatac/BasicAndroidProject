@@ -3,8 +3,9 @@ package com.example.basicandroidproject.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.basicandroidproject.R
@@ -27,8 +28,6 @@ class MainActivity : BaseActivity() {
         const val RETURNED_NUMBER_OBJECT = "RETURNED_NUMBER_OBJECT"
         const val RETURNED_INSERTED_NAME = "RETURNED_INSERTED_NAME"
 
-        const val TAG = "TAG"
-
         const val SAVED_LIST_FAKE = "SAVED_LIST_FAKE"
 
         const val ELEMENT_0 = 0
@@ -49,7 +48,6 @@ class MainActivity : BaseActivity() {
         setupFloatingBtn()
 
         if(savedInstanceState == null) {
-            Log.d(TAG, "onCreate 1")
             listFake = mutableListOf(
                 Language(ELEMENT_0, resources.getString(R.string.label_kotlin)),
                 Language(ELEMENT_1, resources.getString(R.string.label_java)),
@@ -60,7 +58,6 @@ class MainActivity : BaseActivity() {
             )
         }
         else{
-            Log.d(TAG, "onCreate 2")
             listFake = savedInstanceState.getParcelableArrayList<Language>(SAVED_LIST_FAKE) as MutableList<Language>
         }
 
@@ -68,17 +65,17 @@ class MainActivity : BaseActivity() {
         recyclerView.adapter = languageAdapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        val decorator = DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL)
+        decorator.setDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.divider)!!)
+        recyclerView.addItemDecoration(decorator)
+
         val helper =
             androidx.recyclerview.widget.ItemTouchHelper(
-                //Direçoes que irei excutar esses eventos
+                // Directions I will run these events
                 ItemTouchHandler(androidx.recyclerview.widget.ItemTouchHelper.UP
                         or androidx.recyclerview.widget.ItemTouchHelper.DOWN,
-                    androidx.recyclerview.widget.ItemTouchHelper.LEFT)) //e o swipe só pra esquerda
+                    androidx.recyclerview.widget.ItemTouchHelper.LEFT)) // and the swipe just to the left
         helper.attachToRecyclerView(recyclerView)
-
-        languageAdapter.onItemLongClick ={position->
-            //enableActionMode(position)
-        }
 
     }
 
@@ -90,10 +87,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onItemClickListener(language: Language) {
-
-        Toast.makeText(this, "Model: Number=${language.number} Name:${language.name}",
-            Toast.LENGTH_SHORT).show()
-
+        Toast.makeText(this, language.number.toString(), Toast.LENGTH_LONG).show()
         val intent = Intent(this, EditionActivity::class.java)
         intent.putExtra(MODEL_OBJECT, language)
         startActivityForResult(intent, EDITION_REQUEST_CODE)
@@ -113,11 +107,6 @@ class MainActivity : BaseActivity() {
                 val returnedNumber = data?.getIntExtra(RETURNED_NUMBER_OBJECT, 1)
                 language = Language(returnedNumber, returnedName)
 
-                Toast.makeText(
-                    this, "Model: Number=${language.number} Name:${language.name}",
-                    Toast.LENGTH_SHORT
-                ).show()
-
                 changeListFake(language)
             }
             else if(requestCode == INSERTION_REQUEST_CODE){
@@ -133,38 +122,14 @@ class MainActivity : BaseActivity() {
         super.onSaveInstanceState(outState)
         listFake as ArrayList<Language>
         outState.putParcelableArrayList(SAVED_LIST_FAKE, java.util.ArrayList<Language>(listFake))
-        Log.d(TAG, "onSaveInstanceState")
-        Log.d(TAG, "listFake = ${listFake}")
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        listFake = savedInstanceState.getParcelableArrayList<Language>(SAVED_LIST_FAKE) as MutableList<Language>
-        Log.d(TAG, "onRestoreInstanceState")
-        Log.d(TAG, "listFake = ${listFake}")
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume")
-
-    }
+     }
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart")
         languageAdapter.notifyDataSetChanged()
-
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        Log.d(TAG, "onRestart")
-
-    }
-
-    //reordenacao dos nossos itens de célula
+    // reordering our cell items
     inner class ItemTouchHandler(dragDirs: Int, swipeDirs: Int) :
         androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
         override fun onMove(
@@ -172,23 +137,20 @@ class MainActivity : BaseActivity() {
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-//            //usarei para reordenar
-//            val from = viewHolder.adapterPosition
-//            val to = target.adapterPosition
-//
-//            Collections.swap(languageAdapter.languagens, from, to)
-//            languageAdapter.notifyItemMoved(from, to)
-            return true // pra dizer que a lista foi alterada
+            return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            //usarei para excluir dados
-            //removo os itens e notifico ao adapter que isso ocorreu
             languageAdapter.languagens.removeAt(viewHolder.adapterPosition)
             languageAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+            languageAdapter.notifyDataSetChanged()
+            var index = 0
+            listFake.forEach {
+                it.number = index
+                index++
+            }
+
         }
     }
-
-
 
 }

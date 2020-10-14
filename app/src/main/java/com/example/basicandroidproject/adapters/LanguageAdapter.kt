@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.basicandroidproject.R
-import com.example.basicandroidproject.activities.MainActivity
 import com.example.basicandroidproject.model.Language
 import kotlinx.android.synthetic.main.item_list.view.*
 
@@ -13,8 +12,6 @@ class LanguageAdapter(
     val languagens: MutableList<Language>,
     private val callback: (Language) -> Unit
 ) : RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder>() {
-
-    var onItemLongClick: ((Int)-> Unit)? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,11 +30,6 @@ class LanguageAdapter(
 
     override fun onBindViewHolder(holder: LanguageAdapter.LanguageViewHolder, position: Int) {
         holder.bind(languagens[position], position)
-
-        holder.itemView.setOnLongClickListener {
-            onItemLongClick?.invoke(position)
-            return@setOnLongClickListener true
-        }
     }
 
     inner class LanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
