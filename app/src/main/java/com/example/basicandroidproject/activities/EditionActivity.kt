@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.basicandroidproject.R
 import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_NAME_OBJECT
@@ -29,7 +28,6 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
 
         recoverVariables()
         fillSpinners()
-        Toast.makeText(this, recoveredName, Toast.LENGTH_LONG).show()
         setImage(recoveredNumber)
         setselectedElement()
     }

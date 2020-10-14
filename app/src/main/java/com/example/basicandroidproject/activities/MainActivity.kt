@@ -3,7 +3,6 @@ package com.example.basicandroidproject.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -87,7 +86,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun onItemClickListener(language: Language) {
-        Toast.makeText(this, language.number.toString(), Toast.LENGTH_LONG).show()
         val intent = Intent(this, EditionActivity::class.java)
         intent.putExtra(MODEL_OBJECT, language)
         startActivityForResult(intent, EDITION_REQUEST_CODE)
