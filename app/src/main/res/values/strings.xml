@@ -11,4 +11,6 @@
     <string name="insertion_title">Adicione uma Linguagem de Programação na lista</string>
     <string name="hint_language">Linguagem de programação</string>
     <string name="lable_main_title">Liguagens de programação</string>
+    <string name="feedback_language_already_exist">A Linguagem já existe na Lista. Adicione outra.</string>
+    <string name="feedback_empty_language">Prenchimento obrigatório.</string>
 </resources>
