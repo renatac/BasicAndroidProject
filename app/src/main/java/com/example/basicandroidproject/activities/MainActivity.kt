@@ -24,6 +24,7 @@ class MainActivity : BaseActivity() {
 
         const val MODEL_OBJECT = "MODEL_OBJECT"
         const val RETURNED_NAME_OBJECT = "RETURNED_NAME_OBJECT"
+        const val RETURNED_BEFORE_NAME = "RETURNED_BEFORE_NAME"
         const val RETURNED_NUMBER_OBJECT = "RETURNED_NUMBER_OBJECT"
         const val RETURNED_INSERTED_NAME = "RETURNED_INSERTED_NAME"
 
@@ -65,7 +66,7 @@ class MainActivity : BaseActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val decorator = DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL)
-        decorator.setDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.divider)!!)
+        decorator.setDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.shape_divider)!!)
         recyclerView.addItemDecoration(decorator)
 
         val helper =
@@ -92,8 +93,8 @@ class MainActivity : BaseActivity() {
     }
 
     private fun changeListFake(language: Language){
-        listFake[language.number!!] = language
-        languageAdapter.notifyItemChanged(language.number!!)
+        listFake[language.number] = language
+        languageAdapter.notifyItemChanged(language.number)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,17 +102,30 @@ class MainActivity : BaseActivity() {
         if(resultCode == Activity.RESULT_OK) {
             var language: Language
             if (requestCode == EDITION_REQUEST_CODE) {
-                val returnedName = data?.getStringExtra(RETURNED_NAME_OBJECT)
-                val returnedNumber = data?.getIntExtra(RETURNED_NUMBER_OBJECT, 1)
-                language = Language(returnedNumber, returnedName)
+                data?.let{
+                    val returnedName = data.getStringExtra(RETURNED_NAME_OBJECT) ?: ""
+                    val returnedBeforeName = data.getStringExtra(RETURNED_BEFORE_NAME) ?: ""
+                    val returnedNumber = data.getIntExtra(RETURNED_NUMBER_OBJECT, 1)
+                    for(index in 0 until listFake.size){
+                            if(listFake[index].name.equals(returnedName)){
+                                // places the language from the initial position of the exchange to the place that the chosen language was
+                                changeListFake(Language(index,returnedBeforeName))
+                            }
+                    }
+                    language = Language(returnedNumber, returnedName)
+                    //change the edited language
+                    changeListFake(language)
 
-                changeListFake(language)
+                }
             }
             else if(requestCode == INSERTION_REQUEST_CODE){
-                val returnedInsertedName = data?.getStringExtra(RETURNED_INSERTED_NAME)
-                language = Language(listFake.size, returnedInsertedName)
-                listFake.add(language)
-                languageAdapter.notifyItemInserted(language.number!!)
+                val returnedInsertedName: String
+                data?.let {
+                    returnedInsertedName = data.getStringExtra(RETURNED_INSERTED_NAME) ?: ""
+                    language = Language(listFake.size, returnedInsertedName)
+                    listFake.add(language)
+                    languageAdapter.notifyItemInserted(language.number)
+                }
             }
         }
     }
@@ -147,8 +161,6 @@ class MainActivity : BaseActivity() {
                 it.number = index
                 index++
             }
-
         }
     }
-
 }

@@ -8,17 +8,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.Toolbar
 import com.example.basicandroidproject.R
+import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_BEFORE_NAME
 import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_NAME_OBJECT
 import com.example.basicandroidproject.activities.MainActivity.Companion.RETURNED_NUMBER_OBJECT
 import com.example.basicandroidproject.model.Language
 import kotlinx.android.synthetic.main.activity_edition.*
 
-
 class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var nameSelected: String
-    private var recoveredNumber : Int? = 0
-    private var recoveredName : String? = null
+    private var recoveredNumber: Int? = 0
+    private var recoveredName: String? = null
+    private var beforeName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,7 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         setselectedElement()
     }
 
-    private fun setImage(index : Int?) {
+    private fun setImage(index: Int?) {
         langImg.setImageResource(
             when (MainActivity.listFake[index!!].name) {
                 resources.getString(R.string.label_kotlin) -> R.drawable.ic_kotlin
@@ -42,12 +43,13 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
                 resources.getString(R.string.label_typescript) -> R.drawable.ic_typescript
                 resources.getString(R.string.label_flutter) -> R.drawable.ic_flutter
                 else -> R.drawable.ic_languagens
-            })
+            }
+        )
     }
 
     private fun setselectedElement() {
         MainActivity.listFake.map { it.name }.forEachIndexed { index, nameItem ->
-            if(nameItem.equals(recoveredName)){
+            if (nameItem.equals(recoveredName)) {
                 spinnerName.setSelection(index)
                 nameSelected = recoveredName as String
             }
@@ -57,11 +59,11 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
     private fun recoverVariables() {
         val language = intent.getParcelableExtra<Language>(MainActivity.MODEL_OBJECT)
         recoveredNumber = language?.number
+        beforeName = language?.name
         recoveredName = language?.name
     }
 
     private fun fillSpinners() {
-
         ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
@@ -83,10 +85,11 @@ class EditionActivity : BaseActivity(), AdapterView.OnItemSelectedListener {
         setImage(position)
     }
 
-     fun clickBtnFinishEdition(view: View) {
+    fun clickBtnFinishEdition(view: View) {
         val data = Intent()
-        data.putExtra(RETURNED_NUMBER_OBJECT, recoveredNumber)
         data.putExtra(RETURNED_NAME_OBJECT, nameSelected)
+        data.putExtra(RETURNED_BEFORE_NAME, beforeName)
+        data.putExtra(RETURNED_NUMBER_OBJECT, recoveredNumber)
         setResult(Activity.RESULT_OK, data)
         finish()
     }
